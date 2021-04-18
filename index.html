@@ -8,21 +8,28 @@
     <link rel="stylesheet" href="./assets/css/style.css"/>
 
 </head>
-<body>
-    <!--Start Quiz Button-->
-    <div class ="start_btn"><button>Start Quiz</button></div>
-
-    <div class ="info_main">
-        <div class ="info_title">
-            <span>Some Rules of this Quiz</span>
+<header>
+    <div class ="timer-box">
+        <div class="timer"> Time:
         </div>
-        <div class="info_list">
-            <div class="info">Try to answer the following code-related questions within the time limit</div>
-            <div class="info">Keep in mind that incorrect answers will penalize score/time by ten seconds</div>
-        </div>
+        <div class="timer-input">75</div>
     </div>
 
+</header>
+<body>
+    <!--Start Quiz Button-->
+    <div class ="start-btn">
+        <button id="submit">Start Quiz</button></div>
 
+    <!--Quiz info-->
+    <div id ="quiz"></div>
+
+    <!--Results info-->
+    <div id="results"></div>
+    
+
+
+<!--Timer component - should this be in header?-->
     
 </body>
 </html>
