@@ -1,107 +1,183 @@
 
-// functions
-
-function buildQuiz() {
-
-    var output=[];
-  }
-
-  function showResults(){}
-
-//variable containers
-var quizContainer = document.getElementById('quiz');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
-
-//questions array
-var myQuestions = [
-    {
-      question: "Commonly used data types DO Not Include:",
-      answers: {
-        1: "strings",
-        2: "booleans",
-        3: "alerts",
-        4: "numbers"
-      },
-      correctAnswer: "c"
-    },
-    {
-      question: "The condition in an if/else statment is encolsed with __________",
-      answers: {
-        1: "quotes",
-        2: "curly brackets",
-        3: "parenthesis",
-        4: "square brackets"
-      },
-      correctAnswer: "c"
-    },
-    {
-      question: "A very useful tool used during development and debugging for printing context to the debugger is:?",
-      answers: {
-        1: "JavaScript",
-        2: "terminal/bash",
-        3: "for loops",
-        4: "console.log"
-      },
-      correctAnswer: "d"
-    },
-    {
-        question: "String values must be enclosed within ________ when being assigned to variables.",
-        answers: {
-          1: "commas",
-          2: "curly brackets",
-          3: "quotes",
-          4: "parenthesis"
-        },
-        correctAnswer: "c"
-      },
-
-      {
-        question: "Arrays in JavaScript cannot be used to store ",
-        answers: {
-          1: "numbers and strings",
-          2: "other arrays",
-          3: "booleans",
-          4: "3rd party APIs"
-        },
-        correctAnswer: "d"
-      }
 
 
-  ];
+(function(){
+    function buildQuiz(){
+      // variable to store the HTML output
+      var output = [];
+  
+      // for each question...
+      myQuestions.forEach(
+        (currentQuestion, questionNumber) => {
+  
+          // variable to store the list of possible answers
+          var answers = [];
+  
+          // and for each available answer...
+          for(letter in currentQuestion.answers){
+  
+            // ...add an HTML radio button
+            answers.push(
+              `<label>
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} :
+                ${currentQuestion.answers[letter]}
+              </label>`
+            );
 
-
-// start the quiz
-buildQuiz();
-
-// on submit, show results
-submitButton.addEventListener('click', showResults);
-
-
-  //Quiz build out
-
-  // to enable each question
-
-  myQuestions.forEach(
-    (currentQuestion, questionNumber) => {
-
-        //variable holds each possible answer
-
-        var answers = [];
-
-        for(letter in currentQuestion.answers) {
-
-            // add  radio buttons for questions + introduce template literals
-        answers.push(
-            <label>
-                <input type="radio" name="question${questionNumber}" value="${letter}"></input>
-            </label>
-        );
+          }
+          output.push(
+            `<div class="slide">
+              <div class="question"> ${currentQuestion.question} </div>
+              <div class="answers"> ${answers.join("")} </div>
+            </div>`
+          );
         }
+        
+      )
+  
+      // finally combine our output list into one string of HTML and put it on the page
+      quizContainer.innerHTML = output.join('');
     }
-  );
+  
+    function showResults(){
+  
+      // gather answer containers from our quiz
+      var answerContainers = quizContainer.querySelectorAll('.answers');
+  
+      // keep track of user's answers
+      let numCorrect = 0;
+  
+      // for each question...
+      myQuestions.forEach( (currentQuestion, questionNumber) => {
+  
+        // find selected answer
+        var answerContainer = answerContainers[questionNumber];
+        var selector = `input[name=question${questionNumber}]:checked`;
+        var userAnswer = (answerContainer.querySelector(selector) || {}).value;
+  
+        // if answer is correct
+        if(userAnswer === currentQuestion.correctAnswer){
+          // add to the number of correct answers
+          numCorrect++;
+  
+          // color the answers green
+          answerContainers[questionNumber].style.color = 'lightgreen';
+        }
+        // if answer is wrong or blank
+        else{
+          // color the answers red
+          answerContainers[questionNumber].style.color = 'red';
+        }
+      });
+  
+      // show number of correct answers out of total
+      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+    }
+// start showing slides ***** validate if this should be here or just above kick things off
+   
+//****prepare to remove these */
+      function showNextSlide() {
+        showSlide(currentSlide + 1);
+      }
+      
+      function showPreviousSlide() {
+        showSlide(currentSlide - 1);
+      }
+  
+    var quizContainer = document.getElementById('quiz');
+    var resultsContainer = document.getElementById('results');
+    var submitButton = document.getElementById('submit');
+    var myQuestions = [
+        {
+          question: "Commonly used data types DO Not Include:",
+          answers: {
+            1: "strings",
+            2: "booleans",
+            3: "alerts",
+            4: "numbers"
+          },
+          correctAnswer: "c"
+        },
+        {
+          question: "The condition in an if/else statment is encolsed with __________",
+          answers: {
+            1: "quotes",
+            2: "curly brackets",
+            3: "parenthesis",
+            4: "square brackets"
+          },
+          correctAnswer: "c"
+        },
+        {
+          question: "A very useful tool used during development and debugging for printing context to the debugger is:?",
+          answers: {
+            1: "JavaScript",
+            2: "terminal/bash",
+            3: "for loops",
+            4: "console.log"
+          },
+          correctAnswer: "d"
+        },
+        {
+            question: "String values must be enclosed within ________ when being assigned to variables.",
+            answers: {
+              1: "commas",
+              2: "curly brackets",
+              3: "quotes",
+              4: "parenthesis"
+            },
+            correctAnswer: "c"
+          },
+    
+          {
+            question: "Arrays in JavaScript cannot be used to store ",
+            answers: {
+              1: "numbers and strings",
+              2: "other arrays",
+              3: "booleans",
+              4: "3rd party APIs"
+            },
+            correctAnswer: "d"
+          }
+    
+      ];
+      function showSlide(n) {
+        slides[currentSlide].classList.remove('active-slide');
+        slides[n].classList.add('active-slide');
+        currentSlide = n;
+        if(currentSlide === 0){
+          previousButton.style.display = 'none';
+        }
+        else{
+          previousButton.style.display = 'inline-block';
+        }
+        if(currentSlide === slides.length-1){
+          nextButton.style.display = 'none';
+          submitButton.style.display = 'inline-block';
+        }
+        else{
+          nextButton.style.display = 'inline-block';
+          submitButton.style.display = 'none';
+        }
+      }
+     
+    // Kick things off
+    buildQuiz()
+    // add this question and its answers to the output
+    
 
-  // showing the quiz on the page
-  quizContainer.innerHTML = output.join('');
+    // Pagination
+var previousButton = document.getElementById("previous");
+var nextButton = document.getElementById("next");
+var slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
 
-//Quiz is built out (End)
+// Show the first slide
+showSlide(currentSlide);
+  
+    // Event listeners
+    submitButton.addEventListener('click', showResults);
+    previousButton.addEventListener("click", showPreviousSlide);
+nextButton.addEventListener("click", showNextSlide);
+  })();
