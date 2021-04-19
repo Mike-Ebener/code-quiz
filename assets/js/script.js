@@ -77,7 +77,7 @@
       resultsContainer.innerHTML = `${numInCorrect*10} out of ${time-down.length}`;
     }
    
-//****prepare to remove these */
+//****prepare to remove previous slide */
       function showNextSlide() {
         showSlide(currentSlide + 1);
       }
