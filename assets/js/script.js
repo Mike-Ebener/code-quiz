@@ -1,22 +1,24 @@
 
 
 
+
+// !start quiz functions! 
 (function(){
     function buildQuiz(){
-      // variable to store the HTML output
+      // variable to store the answers output
       var output = [];
   
-      // for each question...
+      // determine behavior for each question
       myQuestions.forEach(
         (currentQuestion, questionNumber) => {
   
-          // variable to store the list of possible answers
+          // this variable will store answers
           var answers = [];
   
-          // and for each available answer...
+          
           for(letter in currentQuestion.answers){
   
-            // ...add an HTML radio button
+            // add an HTML radio button for each answer
             answers.push(
               `<label>
                 <input type="radio" name="question${questionNumber}" value="${letter}">
@@ -26,6 +28,8 @@
             );
 
           }
+
+          // turn question array into individual slides
           output.push(
             `<div class="slide">
               <div class="question"> ${currentQuestion.question} </div>
@@ -35,31 +39,28 @@
         }
         
       )
-  
-      // finally combine our output list into one string of HTML and put it on the page
+      //  combine our output list into one string of HTML and put it on the page
       quizContainer.innerHTML = output.join('');
     }
   
     function showResults(){
   
-      // gather answer containers from our quiz
+      // save and store answers in local storage
       var answerContainers = quizContainer.querySelectorAll('.answers');
   
-      // keep track of user's answers
-      let numCorrect = 0;
+      // keep track of what was answered
+      let numInCorrect = 0;
   
-      // for each question...
+      
       myQuestions.forEach( (currentQuestion, questionNumber) => {
   
-        // find selected answer
+        // determine if the answer matches the expected value 
         var answerContainer = answerContainers[questionNumber];
         var selector = `input[name=question${questionNumber}]:checked`;
         var userAnswer = (answerContainer.querySelector(selector) || {}).value;
   
         // if answer is correct
         if(userAnswer === currentQuestion.correctAnswer){
-          // add to the number of correct answers
-          numCorrect++;
   
           // color the answers green
           answerContainers[questionNumber].style.color = 'lightgreen';
@@ -68,13 +69,13 @@
         else{
           // color the answers red
           answerContainers[questionNumber].style.color = 'red';
+          numInCorrect++;
         }
       });
   
-      // show number of correct answers out of total
-      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+      // multiple incorrect answers by 10 and subtract from final countdown timer
+      resultsContainer.innerHTML = `${numInCorrect*10} out of ${time-down.length}`;
     }
-// start showing slides ***** validate if this should be here or just above kick things off
    
 //****prepare to remove these */
       function showNextSlide() {
@@ -85,6 +86,7 @@
         showSlide(currentSlide - 1);
       }
   
+// !Start quiz variables !
     var quizContainer = document.getElementById('quiz');
     var resultsContainer = document.getElementById('results');
     var submitButton = document.getElementById('submit');
@@ -97,7 +99,7 @@
             3: "alerts",
             4: "numbers"
           },
-          correctAnswer: "c"
+          correctAnswer: "3"
         },
         {
           question: "The condition in an if/else statment is encolsed with __________",
@@ -107,7 +109,7 @@
             3: "parenthesis",
             4: "square brackets"
           },
-          correctAnswer: "c"
+          correctAnswer: "3"
         },
         {
           question: "A very useful tool used during development and debugging for printing context to the debugger is:?",
@@ -117,7 +119,7 @@
             3: "for loops",
             4: "console.log"
           },
-          correctAnswer: "d"
+          correctAnswer: "4"
         },
         {
             question: "String values must be enclosed within ________ when being assigned to variables.",
@@ -127,7 +129,7 @@
               3: "quotes",
               4: "parenthesis"
             },
-            correctAnswer: "c"
+            correctAnswer: "3"
           },
     
           {
@@ -138,7 +140,7 @@
               3: "booleans",
               4: "3rd party APIs"
             },
-            correctAnswer: "d"
+            correctAnswer: "4"
           }
     
       ];
@@ -162,9 +164,8 @@
         }
       }
      
-    // Kick things off
+    // Begin Quiz
     buildQuiz()
-    // add this question and its answers to the output
     
 
     // Pagination
@@ -179,5 +180,5 @@ showSlide(currentSlide);
     // Event listeners
     submitButton.addEventListener('click', showResults);
     previousButton.addEventListener("click", showPreviousSlide);
-nextButton.addEventListener("click", showNextSlide);
+    nextButton.addEventListener("click", showNextSlide);
   })();
