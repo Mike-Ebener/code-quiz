@@ -1,62 +1,57 @@
 
+// functions
+
+function buildQuiz() {
+
+    var output=[];
+  }
+
+  function showResults(){}
+
 //variable containers
 var quizContainer = document.getElementById('quiz');
 var resultsContainer = document.getElementById('results');
 var submitButton = document.getElementById('submit');
 
-//start builindg quiz
-
-function buildQuiz(){}
-
-function showResults(){}
-
-// display quiz right away
-buildQuiz();
-
-// on submit, show results
-submitButton.addEventListener('click', showResults);
-
-
-// Questions array
-
+//questions array
 var myQuestions = [
     {
       question: "Commonly used data types DO Not Include:",
       answers: {
-        a: "strings",
-        b: "booleans",
-        c: "alerts",
-        d: "numbers"
+        1: "strings",
+        2: "booleans",
+        3: "alerts",
+        4: "numbers"
       },
       correctAnswer: "c"
     },
     {
       question: "The condition in an if/else statment is encolsed with __________",
       answers: {
-        a: "quotes",
-        b: "curly brackets",
-        c: "parenthesis",
-        d: "square brackets"
+        1: "quotes",
+        2: "curly brackets",
+        3: "parenthesis",
+        4: "square brackets"
       },
       correctAnswer: "c"
     },
     {
       question: "A very useful tool used during development and debugging for printing context to the debugger is:?",
       answers: {
-        a: "JavaScript",
-        b: "terminal/bash",
-        c: "for loops",
-        d: "console.log"
+        1: "JavaScript",
+        2: "terminal/bash",
+        3: "for loops",
+        4: "console.log"
       },
       correctAnswer: "d"
     },
     {
         question: "String values must be enclosed within ________ when being assigned to variables.",
         answers: {
-          a: "commas",
-          b: "curly brackets",
-          c: "quotes",
-          d: "parenthesis"
+          1: "commas",
+          2: "curly brackets",
+          3: "quotes",
+          4: "parenthesis"
         },
         correctAnswer: "c"
       },
@@ -64,13 +59,49 @@ var myQuestions = [
       {
         question: "Arrays in JavaScript cannot be used to store ",
         answers: {
-          a: "numbers and strings",
-          b: "other arrays",
-          c: "booleans",
-          d: "3rd party APIs"
+          1: "numbers and strings",
+          2: "other arrays",
+          3: "booleans",
+          4: "3rd party APIs"
         },
         correctAnswer: "d"
       }
 
 
   ];
+
+
+// start the quiz
+buildQuiz();
+
+// on submit, show results
+submitButton.addEventListener('click', showResults);
+
+
+  //Quiz build out
+
+  // to enable each question
+
+  myQuestions.forEach(
+    (currentQuestion, questionNumber) => {
+
+        //variable holds each possible answer
+
+        var answers = [];
+
+        for(letter in currentQuestion.answers) {
+
+            // add  radio buttons for questions + introduce template literals
+        answers.push(
+            <label>
+                <input type="radio" name="question${questionNumber}" value="${letter}"></input>
+            </label>
+        );
+        }
+    }
+  );
+
+  // showing the quiz on the page
+  quizContainer.innerHTML = output.join('');
+
+//Quiz is built out (End)
