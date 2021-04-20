@@ -82,8 +82,8 @@
         showSlide(currentSlide + 1);
       }
       
-      function showPreviousSlide() {
-        showSlide(currentSlide - 1);
+     function showPreviousSlide() {
+       showSlide(currentSlide - 1);
       }
   
 // !Start quiz variables !
@@ -168,11 +168,23 @@
     buildQuiz()
     
 
-    // Pagination
+    // variables
 var previousButton = document.getElementById("previous");
 var nextButton = document.getElementById("next");
 var slides = document.querySelectorAll(".slide");
 let currentSlide = 0;
+var secondRemaining = 76;
+var time = document.getElementById("time-down");
+var gameTime = setInterval(function(){
+    secondRemaining-=1;
+    time.innerHTML = secondRemaining;
+    
+},1000); 
+
+if(secondRemaining === 0){
+    clearInterval(time);
+}
+
 
 // Show the first slide
 showSlide(currentSlide);
